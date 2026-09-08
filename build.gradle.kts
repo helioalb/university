@@ -36,4 +36,12 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+
+    testLogging {
+        events("passed", "skipped", "failed") // Mostra os testes que passaram, foram pulados e que falharam
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    }
 }
