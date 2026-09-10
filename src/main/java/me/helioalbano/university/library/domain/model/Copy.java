@@ -1,4 +1,4 @@
-package me.helioalbano.university.library.domain;
+package me.helioalbano.university.library.domain.model;
 
 public final class Copy {
     private final String code;

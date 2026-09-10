@@ -1,4 +1,4 @@
-package me.helioalbano.university.library.domain;
+package me.helioalbano.university.library.domain.model;
 
 import java.time.LocalDate;
 
