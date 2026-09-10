@@ -21,6 +21,7 @@ public class TeacherTest {
         assertNotNull(teacher);
         assertEquals(name, teacher.getName());
         assertEquals(email, teacher.getEmail());
+        assertEquals(7, teacher.getMaxActiveLoans());
     }
 
     @Test

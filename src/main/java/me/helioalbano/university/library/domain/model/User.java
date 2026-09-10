@@ -2,7 +2,7 @@ package me.helioalbano.university.library.domain.model;
 
 import java.time.LocalDate;
 
-abstract class User {
+abstract public class User {
     private String name;
     private String email;
 
@@ -12,6 +12,8 @@ abstract class User {
     }
 
     abstract public LocalDate calculateDueDate(final LocalDate loanDate);
+
+    abstract public int getMaxActiveLoans();
 
     public String getName() {
         return name;

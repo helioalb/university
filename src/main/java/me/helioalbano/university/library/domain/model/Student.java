@@ -12,4 +12,9 @@ public final class Student extends User {
     public LocalDate calculateDueDate(final LocalDate loanDate) {
         return loanDate.plusDays(7);
     }
+
+    @Override
+    public int getMaxActiveLoans() {
+        return 3;
+    }
 }
