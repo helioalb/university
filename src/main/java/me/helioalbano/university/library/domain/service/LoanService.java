@@ -28,27 +28,31 @@ public class LoanService {
         Objects.requireNonNull(userId, "userId não pode ser nulo");
         Objects.requireNonNull(copyCode, "copyCode não pode ser nulo");
 
-        if (loanRepository.countPastDueLoansByUserId(userId) > 0) {
-            throw new IllegalStateException("Usuário possui empréstimos em atraso");
-        }
-
         final User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
-
-        if (loanRepository.countActiveLoansByUserId(userId) >= user.getMaxActiveLoans()) {
-            throw new IllegalStateException("Usuário atingiu o número máximo de empréstimos ativos");
-        }
-
-        if (loanRepository.existsByCopyCode(copyCode)) {
-            throw new IllegalStateException("Exemplar já está emprestado");
-        }
+            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
 
         final Copy copy = copyRepository.findByCode(copyCode)
-            .orElseThrow(() -> new IllegalArgumentException("Exemplar não encontrado"));
+            .orElseThrow(() -> new IllegalArgumentException("Exemplar não encontrado."));
+
+        if (user.isBlocked()) {
+            throw new IllegalArgumentException("O usuário está bloqueado.");
+        }
+
+        if (user.hasReachedLoanLimit()) {
+            throw new IllegalArgumentException("O usuário atingiu o limite de empréstimos ativos.");
+        }
+
+        if (user.hasOverdueLoans()) {
+            throw new IllegalArgumentException("O usuário possui empréstimos em atraso.");
+        }
+
+        if (!copy.isAvailable()) {
+            throw new IllegalArgumentException("O exemplar não está disponível para empréstimo.");
+        }
 
         final Loan loan = new Loan(user, copy);
 
         return loanRepository.save(loan)
-            .orElseThrow(() -> new IllegalStateException("Não foi possível salvar o empréstimo"));
+            .orElseThrow(() -> new IllegalStateException("Não foi possível salvar o empréstimo."));
     }
 }

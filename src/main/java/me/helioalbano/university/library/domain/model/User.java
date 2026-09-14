@@ -15,6 +15,18 @@ abstract public class User {
 
     abstract public int getMaxActiveLoans();
 
+    public boolean isBlocked() {
+        return false;
+    }
+
+    public boolean hasReachedLoanLimit() {
+        return false;
+    }
+
+    public boolean hasOverdueLoans() {
+        return false;
+    }
+
     public String getName() {
         return name;
     }

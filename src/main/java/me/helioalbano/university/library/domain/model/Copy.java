@@ -9,6 +9,11 @@ public final class Copy {
         this.item = item;
     }
 
+    public boolean isAvailable() {
+        return true;
+    }
+
+
     public String getDescription() {
         return code + " - " + item.getDescription();
     }
