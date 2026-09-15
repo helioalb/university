@@ -2,12 +2,11 @@ package me.helioalbano.university.library.domain.service;
 
 import java.util.Objects;
 
-import me.helioalbano.university.library.domain.model.Copy;
 import me.helioalbano.university.library.domain.model.Loan;
-import me.helioalbano.university.library.domain.model.User;
 import me.helioalbano.university.library.domain.repository.CopyRepository;
 import me.helioalbano.university.library.domain.repository.LoanRepository;
 import me.helioalbano.university.library.domain.repository.UserRepository;
+import me.helioalbano.university.shared.result.Result;
 
 public class LoanService {
     private final UserRepository userRepository;
@@ -24,35 +23,47 @@ public class LoanService {
         this.loanRepository = Objects.requireNonNull(loanRepository, "loanRepository não pode ser nulo");
     }
 
-    public Loan createLoan(final String userId, final String copyCode) {
-        Objects.requireNonNull(userId, "userId não pode ser nulo");
-        Objects.requireNonNull(copyCode, "copyCode não pode ser nulo");
+    public Result<Loan> createLoan(final String userId, final String copyCode) {
+        if (userId == null || copyCode == null || userId.isBlank() || copyCode.isBlank()) {
+            return Result.failure("userId e copyCode não podem ser nulos ou vazios");
+        }
 
-        final User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
+        var userResult = userRepository.findById(userId);
+        if (!userResult.isSuccess()) {
+            return Result.failure(userResult.getError());
+        }
 
-        final Copy copy = copyRepository.findByCode(copyCode)
-            .orElseThrow(() -> new IllegalArgumentException("Exemplar não encontrado."));
-
+        var user = userResult.getValue();
         if (user.isBlocked()) {
-            throw new IllegalArgumentException("O usuário está bloqueado.");
+            return Result.failure("O usuário está bloqueado.");
         }
 
         if (user.hasReachedLoanLimit()) {
-            throw new IllegalArgumentException("O usuário atingiu o limite de empréstimos ativos.");
+            Result.failure("O usuário atingiu o limite de empréstimos ativos.");
         }
 
         if (user.hasOverdueLoans()) {
-            throw new IllegalArgumentException("O usuário possui empréstimos em atraso.");
+            Result.failure("O usuário possui empréstimos em atraso.");
         }
 
+        var copyResult = copyRepository.findByCode(copyCode);
+        if (!copyResult.isSuccess()) {
+            return Result.failure(copyResult.getError());
+        }
+
+        var copy = copyResult.getValue();
         if (!copy.isAvailable()) {
-            throw new IllegalArgumentException("O exemplar não está disponível para empréstimo.");
+            Result.failure("O exemplar não está disponível para empréstimo.");
         }
 
         final Loan loan = new Loan(user, copy);
 
-        return loanRepository.save(loan)
-            .orElseThrow(() -> new IllegalStateException("Não foi possível salvar o empréstimo."));
+
+        var saveResult = loanRepository.save(loan);
+        if (!saveResult.isSuccess()) {
+            return Result.failure(saveResult.getError());
+        }
+
+        return Result.success(saveResult.getValue());
     }
 }

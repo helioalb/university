@@ -1,9 +1,8 @@
 package me.helioalbano.university.library.domain.repository;
 
-import java.util.Optional;
-
 import me.helioalbano.university.library.domain.model.User;
+import me.helioalbano.university.shared.result.Result;
 
 public interface UserRepository {
-    public Optional<User> findById(final String userId);
+    public Result<User> findById(final String userId);
 }
