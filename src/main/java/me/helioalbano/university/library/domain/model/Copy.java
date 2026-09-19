@@ -13,6 +13,9 @@ public final class Copy {
         return true;
     }
 
+    public String getCode() {
+        return code;
+    }
 
     public String getDescription() {
         return code + " - " + item.getDescription();

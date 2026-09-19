@@ -1,5 +1,6 @@
 package me.helioalbano.university.library.domain.service;
 
+import java.time.Clock;
 import java.util.Objects;
 
 import me.helioalbano.university.library.domain.model.Loan;
@@ -12,15 +13,31 @@ public class LoanService {
     private final UserRepository userRepository;
     private final CopyRepository copyRepository;
     private final LoanRepository loanRepository;
+    private final Clock clock;
 
     public LoanService(
         final UserRepository userRepository,
         final CopyRepository copyRepository,
         final LoanRepository loanRepository
     ) {
-        this.userRepository = Objects.requireNonNull(userRepository, "userRepository não pode ser nulo");
-        this.copyRepository = Objects.requireNonNull(copyRepository, "copyRepository não pode ser nulo");
-        this.loanRepository = Objects.requireNonNull(loanRepository, "loanRepository não pode ser nulo");
+        this(
+            userRepository,
+            copyRepository,
+            loanRepository,
+            Clock.systemDefaultZone()
+        );
+    }
+
+    public LoanService(
+        final UserRepository userRepository,
+        final CopyRepository copyRepository,
+        final LoanRepository loanRepository,
+        final Clock clock
+    ) {
+        this.userRepository = userRepository;
+        this.copyRepository = copyRepository;
+        this.loanRepository = loanRepository;
+        this.clock = clock;
     }
 
     public Result<Loan> createLoan(final String userId, final String copyCode) {
@@ -56,7 +73,7 @@ public class LoanService {
             Result.failure("O exemplar não está disponível para empréstimo.");
         }
 
-        final Loan loan = new Loan(user, copy);
+        final Loan loan = new Loan(user, copy, clock);
 
 
         var saveResult = loanRepository.save(loan);

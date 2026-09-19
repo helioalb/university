@@ -8,7 +8,11 @@ public class LoanTest {
     @Test
     @DisplayName("Should create a loan with valid data")
     public void shouldCreateALoanWithValidData() {
-        Student student = new Student("John Doe", "john.doe@example.com");
+        var studendId = "20090560022";
+        var studenName = "Helio Albano";
+        var studentEmail = "helio@mail.com";
+
+        User student = new Student(studendId, studenName, studentEmail);
         Item book = new Book("Effective Java", "Joshua Bloch");
         Copy copy = new Copy("CC-001", book);
 

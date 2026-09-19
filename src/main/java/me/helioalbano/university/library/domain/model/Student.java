@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public final class Student extends User {
 
-    public Student(final String name, final String email) {
-        super(name, email);
+    public Student(final String studentId, final String name, final String email) {
+        super(studentId, name, email);
     }
 
     @Override
