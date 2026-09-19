@@ -10,8 +10,22 @@ import me.helioalbano.university.shared.result.Result;
 public class InMemoryCopyRepository implements CopyRepository {
 
     private final Map<String, Copy> copies = Map.of(
-        "CC-001-1", new Copy("CC-001-1", new Book("Implementando o Domain-Driven Design", "Vaughn Vernon")),
-        "CC-002-1", new Copy("CC-002-1", new Book("Código Limpo : habilidades práticas do agile", "Robert C. Martin"))
+        "CC-001-1", new Copy(
+            "CC-001-1",
+            new Book(
+                "Implementando o Domain-Driven Design",
+                "Vaughn Vernon"
+            ),
+            true
+        ),
+        "CC-002-1", new Copy(
+            "CC-002-1",
+            new Book(
+                "Código Limpo : habilidades práticas do agile",
+                "Robert C. Martin"
+            ),
+            true
+        )
     );
 
     @Override

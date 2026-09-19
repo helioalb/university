@@ -14,7 +14,7 @@ public class LoanTest {
 
         User student = new Student(studendId, studenName, studentEmail);
         Item book = new Book("Effective Java", "Joshua Bloch");
-        Copy copy = new Copy("CC-001", book);
+        Copy copy = new Copy("CC-001", book, true);
 
         var loan = new Loan(student, copy);
 

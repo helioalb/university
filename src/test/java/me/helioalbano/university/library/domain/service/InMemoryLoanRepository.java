@@ -15,4 +15,14 @@ public class InMemoryLoanRepository implements LoanRepository {
         loans.put(loan.getId(), loan);
         return Result.success(loan);
     }
+
+    @Override
+    public Result<Loan> findById(String loanId) {
+        var loan = loans.get(loanId);
+        if (loan != null) {
+            return Result.success(loan);
+        } else {
+            return Result.failure("Loan not found");
+        }
+    }
 }

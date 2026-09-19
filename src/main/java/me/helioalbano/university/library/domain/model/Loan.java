@@ -3,7 +3,6 @@ package me.helioalbano.university.library.domain.model;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 public final class Loan {
     private static final DateTimeFormatter ID_DATE_FORMAT =
@@ -16,12 +15,11 @@ public final class Loan {
     }
 
     public Loan(final User user, final Copy copy, final Clock clock) {
-        Objects.requireNonNull(user, "user não pode ser nulo");
-        Objects.requireNonNull(copy, "copy não pode ser nulo");
-        Objects.requireNonNull(clock, "clock não pode ser nulo");
-
         var createdAt = LocalDateTime.now(clock);
-        this.id = ID_DATE_FORMAT.format(createdAt) + "-" + user.getId() + "-" + copy.getCode();
+
+        this.id =
+            ID_DATE_FORMAT.format(createdAt) + "-" +
+            user.getId() + "-" + copy.getCode();
     }
 
     public String getId() {

@@ -3,14 +3,24 @@ package me.helioalbano.university.library.domain.model;
 public final class Copy {
     private final String code;
     private final Item item;
+    private boolean isAvailable = false;
 
-    public Copy(final String code, final Item item) {
+    public Copy(final String code, final Item item, final boolean isAvailable) {
         this.code = code;
         this.item = item;
+        this.isAvailable = isAvailable;
     }
 
     public boolean isAvailable() {
-        return true;
+        return isAvailable;
+    }
+
+    public void markAsLoaned() {
+        isAvailable = false;
+    }
+
+    public void markAsReturned() {
+        isAvailable = true;
     }
 
     public String getCode() {

@@ -1,7 +1,6 @@
 package me.helioalbano.university.library.domain.service;
 
 import java.time.Clock;
-import java.util.Objects;
 
 import me.helioalbano.university.library.domain.model.Loan;
 import me.helioalbano.university.library.domain.repository.CopyRepository;
