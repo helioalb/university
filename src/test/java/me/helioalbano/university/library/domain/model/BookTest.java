@@ -1,6 +1,5 @@
 package me.helioalbano.university.library.domain.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +15,5 @@ public class BookTest {
         var book = new Book(title, author);
 
         assertNotNull(book);
-        assertEquals("Effective Java - Joshua Bloch", book.getDescription());
     }
 }

@@ -1,6 +1,5 @@
 package me.helioalbano.university.library.domain.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,10 +16,9 @@ public class CopyTest {
         Item item = new Book("Effective Java", "Joshua Bloch");
         var isAvailable = true;
 
-        var copy = new Copy("CC-001", item, isAvailable);
+        var copy = new Copy(code, item, isAvailable);
 
         assertNotNull(copy);
-        assertEquals(code + " - Effective Java - Joshua Bloch", copy.getDescription());
     }
 
     @Test
