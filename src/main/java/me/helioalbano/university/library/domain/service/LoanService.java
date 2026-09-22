@@ -48,34 +48,26 @@ public class LoanService {
         if (!userResult.isSuccess()) {
             return Result.failure(userResult.getError());
         }
-
         var user = userResult.getValue();
-        if (user.isBlocked()) {
-            return Result.failure("O usuário está bloqueado.");
-        }
 
-        if (user.hasReachedLoanLimit()) {
-            Result.failure("O usuário atingiu o limite de empréstimos ativos.");
-        }
-
-        if (user.hasOverdueLoans()) {
-            Result.failure("O usuário possui empréstimos em atraso.");
+        if (user.hasReachedLoanLimit(0)) {
+            return Result.failure("O usuário atingiu o limite de empréstimos ativos.");
         }
 
         var copyResult = copyRepository.findByCode(copyCode);
         if (!copyResult.isSuccess()) {
             return Result.failure(copyResult.getError());
         }
-
         var copy = copyResult.getValue();
-        if (!copy.isAvailable()) {
-            Result.failure("O exemplar não está disponível para empréstimo.");
+
+        var loanResult = Loan.create(user, copy, clock);
+
+        if (!loanResult.isSuccess()) {
+            return Result.failure(loanResult.getError());
         }
 
-        final Loan loan = new Loan(user, copy, clock);
+        var saveResult = loanRepository.save(loanResult.getValue());
 
-
-        var saveResult = loanRepository.save(loan);
         if (!saveResult.isSuccess()) {
             return Result.failure(saveResult.getError());
         }

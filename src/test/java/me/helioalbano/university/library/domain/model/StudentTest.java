@@ -14,14 +14,10 @@ public class StudentTest {
     @DisplayName("Should create a student with valid data")
     public void shouldCreateAStudentWithValidData() {
         var studentId = "20090560022";
-        var name = "John Doe";
-        var email = "john.doe@example.com";
 
-        var student = new Student(studentId, name, email);
+        var student = new Student(studentId);
 
         assertNotNull(student);
-        assertEquals(name, student.getName());
-        assertEquals(email, student.getEmail());
         assertEquals(3, student.getMaxActiveLoans());
     }
 
@@ -29,9 +25,7 @@ public class StudentTest {
     @DisplayName("Should calculate due date for student")
     public void shouldCalculateDueDateForStudent() {
         var studentId = "20090560022";
-        var name = "Helio Albano";
-        var email = "helio@mail.com";
-        var student = new Student(studentId, name, email);
+        var student = new Student(studentId);
 
         var actualDueDate = student.calculateDueDate(LocalDate.of(2026, 1, 1));
 

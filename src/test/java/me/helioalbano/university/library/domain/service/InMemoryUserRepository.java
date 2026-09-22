@@ -10,8 +10,8 @@ import me.helioalbano.university.shared.result.Result;
 
 public class InMemoryUserRepository implements UserRepository {
     private Map<String, User> users = Map.of(
-        "20090560022", new Student("20090560022","Helio Albano", "helio@mail.com"),
-        "99990000001", new Teacher("99990000001", "Ana Lucia", "ana@universidade.br")
+        "20090560022", new Student("20090560022"),
+        "99990000001", new Teacher("99990000001")
     );
 
     @Override

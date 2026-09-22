@@ -14,14 +14,10 @@ public class TeacherTest {
     @DisplayName ("Should create a teacher with valid data")
     public void shouldCreateATeacherWithValidData() {
         var teacherId = "99990000001";
-        var name = "Jane Smith";
-        var email = "jane.smith@example.com";
 
-        var teacher = new Teacher(teacherId, name, email);
+        var teacher = new Teacher(teacherId);
 
         assertNotNull(teacher);
-        assertEquals(name, teacher.getName());
-        assertEquals(email, teacher.getEmail());
         assertEquals(7, teacher.getMaxActiveLoans());
     }
 
@@ -29,9 +25,7 @@ public class TeacherTest {
     @DisplayName ("Should calculate due date for teacher")
     public void shouldCalculateDueDateForTeacher() {
         var teacherId = "99990000001";
-        var name = "Ana Lucia";
-        var email = "ana.lucia@example.com";
-        var teacher = new Teacher(teacherId, name, email);
+        var teacher = new Teacher(teacherId);
 
         var actualDueDate = teacher.calculateDueDate(LocalDate.of(2026, 1, 1));
 
