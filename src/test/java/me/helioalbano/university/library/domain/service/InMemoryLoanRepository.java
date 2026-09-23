@@ -25,4 +25,15 @@ public class InMemoryLoanRepository implements LoanRepository {
             return Result.failure("Loan not found");
         }
     }
+
+    @Override
+    public Result<Integer> countActiveLoansByUserId(String userId) {
+        int count = 0;
+        for (Loan loan : loans.values()) {
+            if (loan.getUserId().equals(userId)) {
+                count++;
+            }
+        }
+        return Result.success(count);
+    }
 }

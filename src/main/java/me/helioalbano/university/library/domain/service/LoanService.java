@@ -40,25 +40,26 @@ public class LoanService {
     }
 
     public Result<Loan> createLoan(final String userId, final String copyCode) {
-        if (userId == null || copyCode == null || userId.isBlank() || copyCode.isBlank()) {
-            return Result.failure("userId e copyCode não podem ser nulos ou vazios");
-        }
-
         var userResult = userRepository.findById(userId);
         if (!userResult.isSuccess()) {
             return Result.failure(userResult.getError());
         }
         var user = userResult.getValue();
 
-        if (user.hasReachedLoanLimit(0)) {
-            return Result.failure("O usuário atingiu o limite de empréstimos ativos.");
-        }
-
         var copyResult = copyRepository.findByCode(copyCode);
         if (!copyResult.isSuccess()) {
             return Result.failure(copyResult.getError());
         }
         var copy = copyResult.getValue();
+
+        var activeLoansResult = loanRepository.countActiveLoansByUserId(userId);
+        if (!activeLoansResult.isSuccess()) {
+            return Result.failure(activeLoansResult.getError());
+        }
+
+        if (user.hasReachedLoanLimit(activeLoansResult.getValue())) {
+            return Result.failure("O usuário atingiu o limite de empréstimos ativos.");
+        }
 
         var loanResult = Loan.create(user, copy, clock);
 

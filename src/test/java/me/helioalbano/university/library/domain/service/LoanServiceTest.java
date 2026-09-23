@@ -27,7 +27,7 @@ public class LoanServiceTest {
         assertTrue(loanResult.isSuccess());
 
         var loan = loanResult.getValue();
-        var expectedId = "2026-01-01-08-00-00-20090560022-CC-001-1";
+        var expectedId = "2026-01-01-20090560022-CC-001-1";
         assertEquals(expectedId, loan.getId());
 
         var persistedLoanResult = loanRepository.findById(expectedId);
